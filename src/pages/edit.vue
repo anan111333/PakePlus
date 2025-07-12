@@ -382,18 +382,18 @@
                         autoCorrect="off"
                         spellCheck="false"
                         :placeholder="t('savePathTips')"
-                        @click="savePathHandle('select')"
+                        @click="savePathHandle('open')"
                     >
                         <template #append>
                             <el-tooltip
                                 class="box-item"
-                                :content="t('staticFile')"
                                 placement="bottom"
+                                :content="t('savePath')"
                             >
                                 <el-button
                                     class="distUpload"
                                     :icon="FolderOpened"
-                                    @click="savePathHandle('open')"
+                                    @click="savePathHandle('select')"
                                 />
                             </el-tooltip>
                         </template>
@@ -533,7 +533,8 @@ import {
     exists,
     remove,
     writeFile,
-    rename,
+    mkdir,
+    copyFile,
 } from '@tauri-apps/plugin-fs'
 import {
     appCacheDir,
@@ -557,6 +558,7 @@ import {
     FolderOpened,
     ReadingLamp,
 } from '@element-plus/icons-vue'
+import ppIcon from '@/assets/images/pakeplus.png'
 import CutterImg from '@/components/CutterImg.vue'
 import CodeEdit from '@/components/CodeEdit.vue'
 import { useI18n } from 'vue-i18n'
@@ -584,9 +586,9 @@ import {
     fileLimitNumber,
     isDev,
     readStaticFile,
-    rhExeUrl,
     base64PngToIco,
     isAlphanumeric,
+    imageToBase64,
 } from '@/utils/common'
 import { arch, platform } from '@tauri-apps/plugin-os'
 import { getCurrentWindow } from '@tauri-apps/api/window'
@@ -611,11 +613,12 @@ const file = ref<any>(null)
 
 const distInput = ref<any>(null)
 const jsFileContents = ref('')
-const jsSelOptions: any = ref<any>([])
+// const jsSelOptions: any = ref<any>([])
 const configDialogVisible = ref(false)
 const codeDialogVisible = ref(false)
 const imgPreviewVisible = ref(false)
 const warning = ref('')
+// platform name and arch name
 const platformName = isTauri ? platform() : 'web'
 const archName = isTauri ? arch() : 'web'
 
@@ -985,12 +988,6 @@ const loadHtml = async () => {
         const isExists = await exists(indexHtml)
         if (isExists) {
             const files = await readDirRecursively(selected)
-            if (files.length >= fileLimitNumber) {
-                oneMessage.error(
-                    t('fileLimitNumber', { number: fileLimitNumber })
-                )
-                return
-            }
             const configUrl = `index.html (${t('moreAssets')}+${files.length})`
             store.currentProject.url = configUrl
             store.currentProject.htmlPath = selected
@@ -1587,63 +1584,66 @@ const easyLocal = async () => {
         // console.log('loadingText---', loadingText)
         loadingText(loadingState)
     }, 1000)
-    // if windows, down rh.exe
     // exe name
     let targetName = isAlphanumeric(store.currentProject.showName)
         ? store.currentProject.showName
         : store.currentProject.name
-    const targetExe = await join(targetDir, targetName, `${targetName}.exe`)
+    const appDataDirPath = await appDataDir()
+    const targetExe = await join(appDataDirPath, `${targetName}.exe`)
     if (platformName === 'windows') {
-        const ppExeDir: string = await invoke('get_exe_dir', { parent: true })
-        const rhExePath = await join(ppExeDir, 'data', 'rh.exe')
-        // exists
-        if (await exists(rhExePath)) {
-            console.log('rh.exe exists')
+        if (await exists(appDataDirPath)) {
+            console.log('appDataDirPath exists')
         } else {
-            await invoke('download_file', {
-                url: rhExeUrl,
-                savePath: rhExePath,
-                fileId: 'rh.exe',
-            })
+            await mkdir(appDataDirPath, { recursive: true })
         }
-        // ico save to local
-        const base64String = store.currentProject.iconRound
-            ? roundIcon.value
-            : iconBase64.value
-        const icoBlob = await base64PngToIco(base64String)
-        const icoPath = await join(ppExeDir, 'data', 'app.ico')
-        await writeFile(icoPath, icoBlob)
         // save rhscript.txt
         const rhscript = await readStaticFile('rhscript.txt')
         // replace ppexe path
         const ppexePath: string = await invoke('get_exe_dir', { parent: false })
         // log path
-        const logPath: string = await join(ppExeDir, 'data', 'rh.log')
-        console.log('ppexePath', ppexePath)
-        const rhtarget = rhscript
+        const logPath: string = await join(appDataDirPath, 'rh.log')
+        let rhtarget: string = rhscript
             .replace('PakePlus.exe', ppexePath)
             .replace('Target.exe', targetExe)
             .replace('rh.log', logPath)
-            .replace('app.ico', icoPath)
-        const rhscriptPath = await join(ppExeDir, 'data', 'rhscript.txt')
+        // ico save to local
+        if (iconBase64.value) {
+            const base64String = store.currentProject.iconRound
+                ? roundIcon.value
+                : iconBase64.value
+            const icoBlob = await base64PngToIco(base64String)
+            const icoPath = await join(appDataDirPath, 'app.ico')
+            await writeFile(icoPath, icoBlob)
+            rhtarget = rhtarget.replace('app.ico', icoPath)
+        } else {
+            await copyFile(ppexePath, targetExe)
+        }
+        const rhscriptPath = await join(appDataDirPath, 'rhscript.txt')
         await writeTextFile(rhscriptPath, rhtarget)
     } else {
         targetName = store.currentProject.showName
     }
     // build local
+    console.log('store.currentProject.more.windows', store.currentProject.name)
     // store.currentProject.isHtml && store.currentProject.htmlPath
     invoke('build_local', {
         targetDir: targetDir,
+        projectName: store.currentProject.name,
         exeName: targetName,
         config: store.currentProject.more.windows,
-        base64Png:
-            platformName === 'windows'
+        base64Png: iconBase64.value
+            ? platformName === 'windows'
                 ? store.currentProject.iconRound
                     ? roundIcon.value
                     : iconBase64.value
                 : store.currentProject.iconRound
                 ? await cropImageToRound(roundIcon.value, 50)
-                : iconBase64.value,
+                : iconBase64.value
+            : platformName === 'macos'
+            ? store.currentProject.iconRound
+                ? await cropImageToRound(await imageToBase64(ppIcon), 50)
+                : await imageToBase64(ppIcon)
+            : '',
         debug: store.currentProject.desktop.debug,
         customJs: await getInitializationScript(true),
         htmlPath: store.currentProject.htmlPath,
@@ -1651,16 +1651,14 @@ const easyLocal = async () => {
         .then(async (res) => {
             loadingText(t('buildSuccess'))
             // isAlphanumeric(store.currentProject.showName)
-            if (
-                platformName === 'windows' &&
-                !isAlphanumeric(store.currentProject.showName)
-            ) {
+            if (platformName === 'windows') {
                 const chinaExeName = await join(
                     targetDir,
                     targetName,
                     `${store.currentProject.showName}.exe`
                 )
-                await rename(targetExe, chinaExeName)
+                await copyFile(targetExe, chinaExeName)
+                await remove(targetExe)
             }
             oneMessage.success(t('localSuccess'))
             buildLoading.value = false

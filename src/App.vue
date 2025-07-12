@@ -2,7 +2,13 @@
 import { onMounted } from 'vue'
 import { locale as osLocale } from '@tauri-apps/plugin-os'
 import { useI18n } from 'vue-i18n'
-import { isTauri, isMobile, chageTheme, syncAllBranch } from './utils/common'
+import {
+    isTauri,
+    isMobile,
+    chageTheme,
+    syncAllBranch,
+    creatDeviceid,
+} from './utils/common'
 import Updater from './components/Updater.vue'
 import { usePPStore } from './store'
 
@@ -10,7 +16,7 @@ const { locale } = useI18n()
 const store = usePPStore()
 
 const disableRightClick = () => {
-    //禁止F12
+    // disable f12
     document.onkeydown = function (event: any) {
         var winEvent: any = window.event
         if (winEvent && winEvent.keyCode == 123) {
@@ -21,7 +27,7 @@ const disableRightClick = () => {
             winEvent.keyCode = 505
         }
     }
-    //屏蔽右键菜单
+    // disable right click
     document.oncontextmenu = function (event: any) {
         if (window.event) {
             event = window.event
@@ -45,6 +51,7 @@ const disableRightClick = () => {
 }
 
 const initEnv = async () => {
+    creatDeviceid()
     // listen theme change
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     if (mediaQuery) {
