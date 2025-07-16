@@ -1,32 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="styles.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus App</title>
-        <script type="module" src="/main.js" defer></script>
-    </head>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东万</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>欢迎登录东万选图系统</h1>
+            <p class="subtitle">作者：大大鹅 优秀</p>
+            <!-- 公告 -->
+            <div class="announcement-container">
+                <div class="announcement-title">公告</div>
+                <div class="announcement-content" id="announcementContent">
+                    <div class="current-announcement" id="currentAnnouncement">版本：2.30 更新记分板窗口可拖动 添加赛事地图星级 更新S19地图库 添加多页记分板功能 添加分数双击编辑功能 移除登录系统 更改排除图案</div>
+                    <div class="announcement-history" id="announcementHistory"></div>
+                </div>
+            </div>
+        </header>
 
-    <body>
-        <main class="container">
-            <h1>Welcome to PakePlus</h1>
-            <form class="row" id="greet-form">
-                <input id="inputValue" placeholder="Enter a something..." />
-            </form>
-            <div class="resultBox">
-                <span>result: </span>
-                <span id="result"></span>
+        <div class="btn-group">
+            <button class="btn home-btn" id="homeBtn">主页</button>
+            <button class="btn glory-btn" id="gloryBtn">S7公开赛排名</button>
+            <button class="btn guide-btn" id="guideBtn">玩法介绍</button>
+            <button class="btn random-btn" id="randomBtn">随机选图</button>
+            <button class="btn reset-btn" id="resetBtn">重置所有排除</button>
+            <button class="btn s18-btn selected-map-btn" id="s18MapLibraryBtn">S19</button>
+            <button class="btn annual-btn" id="annualChampionMapLibraryBtn">24年度</button>
+            <button class="btn s6-btn" id="s6MapLibraryBtn">S6公开</button>
+            <button class="btn yaomao-btn" id="yaomaoMapLibraryBtn">东万杯</button>
+            <button class="btn s19-rank-btn" id="s19RankBtn">S19排名</button>
+            <button class="btn hubu-btn" id="hubuBtn">胡布斯排行</button>
+            <button class="btn scoreboard-btn" id="scoreboardBtn">记分板</button>
+        </div>
+
+        <div class="map-container yaomao-layout" id="mapContainer">
+            <!-- 地图卡片将通过JavaScript动态生成 -->
+        </div>
+    </div>
+
+<!-- 修改记分板窗口结构 -->
+<div class="scoreboard-window" id="scoreboardWindow">
+    <div class="window-header draggable">
+        <button class="page-nav-btn" id="prevPageBtn">←</button>
+        <h3 id="scoreboardTitle">赛车记分板 - 滴血模式</h3>
+        <button class="page-nav-btn" id="nextPageBtn">→</button>
+        <button class="close-window" id="closeWindow">×</button>
+    </div>
+    <div class="window-content">
+        <!-- 滴血模式 -->
+        <div class="score-page active" id="page1">
+            <ul class="players-list" id="playersList1"></ul>
+        </div>
+        <!-- 抢分模式 -->
+        <div class="score-page" id="page2">
+            <ul class="players-list" id="playersList2"></ul>
+        </div>
+        <!-- 2V模式 -->
+        <div class="score-page" id="page3">
+            <div class="team-group">
+                <div class="team-header">
+                    <h4>第一组</h4>
+                    <div class="team-score">总分: <span id="team1Score">0</span></div>
+                </div>
+                <ul class="players-list" id="playersList3-1"></ul>
             </div>
-            <div class="invokeBox">
-                <button id="openUrl">open_url_browser</button>
-                <button id="openUrlNew">open_url_new</button>
-                <button id="runCommand">run_command</button>
-                <button id="downloadFile">download_file</button>
-                <button id="getExeDir">get_exe_dir</button>
-                <button id="getEnvVar">get_env_var</button>
-                <button id="findPort">find_port</button>
+            <div class="team-group">
+                <div class="team-header">
+                    <h4>第二组</h4>
+                    <div class="team-score">总分: <span id="team2Score">0</span></div>
+                </div>
+                <ul class="players-list" id="playersList3-2"></ul>
             </div>
-        </main>
-    </body>
+            <div class="team-group">
+                <div class="team-header">
+                    <h4>第三组</h4>
+                    <div class="team-score">总分: <span id="team3Score">0</span></div>
+                </div>
+                <ul class="players-list" id="playersList3-3"></ul>
+            </div>
+        </div>
+        <!-- 3V模式 -->
+        <div class="score-page" id="page4">
+            <div class="team-group">
+                <div class="team-header">
+                    <h4>第一组</h4>
+                    <div class="team-score">总分: <span id="team4Score">0</span></div>
+                </div>
+                <ul class="players-list" id="playersList4-1"></ul>
+            </div>
+            <div class="team-group">
+                <div class="team-header">
+                    <h4>第二组</h4>
+                    <div class="team-score">总分: <span id="team5Score">0</span></div>
+                </div>
+                <ul class="players-list" id="playersList4-2"></ul>
+            </div>
+        </div>
+        <div class="window-footer">
+            <button class="btn reset-scores" id="resetScoresBtn">重置分数</button>
+        </div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+    <!-- 随机地图弹窗 -->
+    <div class="random-map-modal" id="randomMapModal">
+        <div class="random-map-content">
+            <div class="random-map-close" id="closeRandomModal">&times;</div>
+            <div class="random-map-header">
+                <h2 class="random-map-title"></h2>
+                <div id="randomMapSaying" class="random-map-saying"></div>
+            </div>
+            <img id="randomMapImage" class="random-map-image" src="" alt="随机地图">
+            <h3 id="randomMapName" class="random-map-name">地图名称</h3>
+        </div>
+    </div>
+
+    <!-- 随机选图过程动画 -->
+    <div class="selection-process" id="selectionProcess" style="display: none;">
+        <div class="process-animation"></div>
+        <div class="process-text">随机选图中...</div>
+    </div>
+
+    <!-- 玩法介绍弹窗 -->
+    <div class="guide-modal" id="guideModal">
+        <div class="guide-content">
+            <div class="close-guide" id="closeGuide">×</div>
+            <h2 class="guide-title">游戏玩法介绍</h2>
+
+            <div class="guide-section">
+                <p><strong>本群为公益服。如有收费进群的，向群主举报。</strong></p>
+            </div>
+
+            <div class="guide-section">
+                <h3 class="guide-section-title">目录：</h3>
+                <ul>
+                    <li>新手教程</li>
+                    <li>问题解决</li>
+                    <li>游戏玩法</li>
+                    <li>急速通关</li>
+                </ul>
+            </div>
+
+            <div class="guide-section">
+                <h3 class="guide-section-title">新手教程</h3>
+                <p>1.所有需要的补丁都在群文件。转存给我的电脑后，解锁告诉下载。</p>
+                <p>2.将官服（不接受极速版）复制一份出来（如不愿意复制出来，出现任何奇怪bug不予处理！！！）。</p>
+                <p>3.将补丁放入复制出来的飞车目录</p>
+                <p>4.CDK获取接口：https://xn--chqub.xn--6qq986b3xl/（复制到浏览器打开）</p>
+                <p>5.邀请码随便写</p>
+            </div>
+
+            <div class="guide-section">
+                <h3 class="guide-section-title">问题解决</h3>
+                <p>1.点击登录按钮无响应？</p>
+                <p>a.答：更新官服后，重新导入补丁。</p>
+                <p>2.登录框消失后，十秒以上不进游戏？</p>
+                <p>a.答：在补丁中，找到user.db放进飞车目录。</p>
+                <p>b.答：还不行的话，重启后，重新导入user.db</p>
+                <p>3.文件损坏，缺少文件？</p>
+                <p>a.答：和其他补丁冲突，请重新复制一份官服。重新导入一份补丁。</p>
+                <p>4.兑换道具是盒子？</p>
+                <p>a.答：确认版本是最新，重上游戏。</p>
+                <p>5.道具都是下载中？</p>
+                <p>a.答：极速版bug。</p>
+                <p>6.没有进程</p>
+            </div>
+
+            <div class="guide-section">
+                <h3 class="guide-section-title">游戏玩法</h3>
+                <p>1.注册送8w8盒子玉麒麟333荔枝</p>
+                <p>2.挂机每小时12荔枝6w垫圈</p>
+                <p>3.车神打榜，</p>
+                <p>4.带奶糖双4级宝石，薄荷糖3颗4级宝石</p>
+                <p>5.单人边境，多人边境。</p>
+                <p>6.商城东西随意购买</p>
+                <p>7.房间输入"开启垫底赛"开启垫底赛模式。</p>
+                <p>8.房间输入"开启比赛模式"观看他人板车，解决游戏掉帧问题。</p>
+                <p>9.房间里输入长图mapID更换长图。</p>
+                <ul>
+                    <li>mapID: 452 Name: 冲刺大闯关</li>
+                    <li>mapID: 431 Name: 龙晶大闯关</li>
+                    <li>mapID: 426 Name: 龙门大闯关</li>
+                    <li>mapID: 417 Name: 极限大闯关</li>
+                    <li>mapID: 383 Name: 秘境大闯关</li>
+                </ul>
+                <p>10.每天20-22点开放3倍盒子（希望群里的宝宝们早点休息，不要熬夜）。</p>
+                <p>11.开放传奇皮肤进阶，消耗新鲜荔枝</p>
+                <p>12.开放魔法阵抽奖兑换，消耗新鲜荔枝。</p>
+                <p>13.开放机甲皮肤进阶，每日一抽，抽取机甲道具。</p>
+                <p>14.奇迹阁兑换新车（蛇车，女娲），有需要的道具，</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- S19排名弹窗 -->
+    <div class="rank-modal" id="s19RankModal">
+        <div class="rank-content">
+            <div class="close-rank" id="closeRankModal">&times;</div>
+            <h2 class="rank-title">S19车王排名</h2>
+            
+            <div class="rank-section champion">
+                <h3 class="section-title">冠军</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">豪文</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section runner-up">
+                <h3 class="section-title">亚军</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">月亮</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section third-place">
+                <h3 class="section-title">季军</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">木谨</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section">
+                <h3 class="section-title">垫军</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">豆豆</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section other">
+                <h3 class="section-title">6强</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">菜</span></li>
+                    <li class="rank-item"><span class="rank-name">啊芙拉</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section other">
+                <h3 class="section-title">8强</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">久夏</span></li>
+                    <li class="rank-item"><span class="rank-name">探玄</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section other">
+                <h3 class="section-title">12强</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">小俄mah</span></li>
+                    <li class="rank-item"><span class="rank-name">别离</span></li>
+                    <li class="rank-item"><span class="rank-name">一分</span></li>
+                    <li class="rank-item"><span class="rank-name">柚子</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section other">
+                <h3 class="section-title">18强</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">薄冰</span></li>
+                    <li class="rank-item"><span class="rank-name">辰影</span></li>
+                    <li class="rank-item"><span class="rank-name">多冰</span></li>
+                    <li class="rank-item"><span class="rank-name">大王</span></li>
+                    <li class="rank-item"><span class="rank-name">优秀</span></li>
+                    <li class="rank-item"><span class="rank-name">神一样</span></li>
+                </ul>
+            </div>
+            
+            <div class="rank-section other">
+                <h3 class="section-title">24强</h3>
+                <ul class="rank-list">
+                    <li class="rank-item"><span class="rank-name">啊强</span></li>
+                    <li class="rank-item"><span class="rank-name">薛之谦</span></li>
+                    <li class="rank-item"><span class="rank-name">wei</span></li>
+                    <li class="rank-item"><span class="rank-name">vvv</span></li>
+                    <li class="rank-item"><span class="rank-name">凉城</span></li>
+                    <li class="rank-item"><span class="rank-name">天锁</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<!-- 光荣榜弹窗 -->
+<div class="glory-modal" id="gloryModal">
+    <div class="glory-content">
+        <div class="close-glory" id="closeGlory">×</div>
+        <h2 class="glory-title">S7公开赛排名</h2>
+        
+        <div class="glory-section champion">
+            <h3 class="section-title">冠军</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">洛洛</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section runner-up">
+            <h3 class="section-title">亚军</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">薄青</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section third-place">
+            <h3 class="section-title">季军</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">菜</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section">
+            <h3 class="section-title">殿军</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">暴龙神</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section">
+            <h3 class="section-title">8强</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">清清</span></li>
+                <li class="glory-item"><span class="player-name">拉</span></li>
+                <li class="glory-item"><span class="player-name">下雨</span></li>
+                <li class="glory-item"><span class="player-name">多冰</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section">
+            <h3 class="section-title">12强</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">宝石</span></li>
+                <li class="glory-item"><span class="player-name">久夏</span></li>
+                <li class="glory-item"><span class="player-name">别离</span></li>
+                <li class="glory-item"><span class="player-name">大王</span></li>
+            </ul>
+        </div>
+        
+        <div class="glory-section">
+            <h3 class="section-title">16强</h3>
+            <ul class="glory-list">
+                <li class="glory-item"><span class="player-name">阿强</span></li>
+                <li class="glory-item"><span class="player-name">优秀</span></li>
+                <li class="glory-item"><span class="player-name">博冰</span></li>
+                <li class="glory-item"><span class="player-name">冰</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    <!-- 胡布斯排行榜弹窗 -->
+    <div class="hubu-modal" id="hubuModal">
+        <div class="hubu-content">
+            <div class="close-hubu" id="closeHubu">&times;</div>
+            <h2 class="hubu-title">胡布斯财富排行榜（2025.6.21）</h2>
+            
+            <div class="hubu-table-container">
+                <table class="hubu-table">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>昵称</th>
+                            <th style="text-align: right;">财富值</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hubuTableBody">
+                        <!-- 排行榜数据将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入外部JavaScript文件 -->
+    <script src="script.js"></script>
+</body>
 </html>
