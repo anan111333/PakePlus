@@ -1,3 +1,15 @@
+.name-input {
+    width: 50px; /* 根据需要调整宽度 */
+    /* 其他样式保持不变 */
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 2px;
+    outline: none;
+}
 /* 排除标记样式 - 白色圆圈加45度斜线 */
 .map-card.selected::before {
     content: "";
@@ -120,34 +132,27 @@
     display: block;
 }
 
-/* 小组样式 */
+/* ========= 小组样式修改 ========= */
 .team-group {
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px; /* 减小边距 */
+    padding: 5px; /* 减小内边距 */
+    background: rgba(0, 0, 0, 0.05); /* 更透明的背景 */
+    border: none; /* 删除边框 */
 }
 
 .team-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 3px; /* 减小边距 */
+    padding-bottom: 0; /* 移除底部内边距 */
+    border-bottom: none; /* 删除底部边框 */
 }
 
 .team-header h4 {
-    color: white;
+    font-size: 15px; /* 减小字体大小 */
     margin: 0;
-    font-size: 16px;
 }
 
 .team-score {
-    color: #f1c40f;
-    font-weight: bold;
-    font-size: 16px;
+    font-size: 14px; /* 减小字体大小 */
 }
 
 /* 滚动条样式 */
@@ -1519,23 +1524,24 @@ h1 {
     }
 }
 
+
 /* ========= 记分板窗口样式 ========= */
 .scoreboard-window {
     position: fixed;
     top: 100px;
     right: 20px;
-    width: 280px;
+    width: 250px;
     height: auto;
-    background: rgba(65, 105, 225, 0.85); /* 更深的蓝色 */
+    background: rgba(0,191,255, 0.5);
     backdrop-filter: blur(10px);
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0);
     z-index: 1000;
-    border-radius: 10px;
+    border-radius: 0;
     display: none;
-    border: 1px solid rgba(30, 50, 120, 0.85);
+    border: 1px solid rgba(135,206,235, 1);
     overflow: hidden;
     resize: both;
-    min-width: 250px;
+    min-width: 200px;
     min-height: 300px;
 }
 
@@ -1545,31 +1551,44 @@ h1 {
 
 .window-header {
     padding: 12px 15px;
-    background: rgba(70, 130, 180, 0.8);
+    background: rgba(0, 0, 0, 0);
     user-select: none;
     cursor: move;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid gold;
+    position: relative;
+}
+
+.window-header::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, gold, transparent);
 }
 
 .window-header h3 {
     color: white;
     margin: 0;
     font-size: 18px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0);
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .close-window {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid white;
     color: white;
     font-size: 20px;
     cursor: pointer;
     width: 28px;
     height: 28px;
-    border-radius: 50%;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1577,160 +1596,123 @@ h1 {
 }
 
 .close-window:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 215, 0, 0);
     transform: rotate(90deg);
 }
 
 .window-content {
-    padding: 15px;
+    padding: 12px;
     max-height: 60vh;
     overflow-y: auto;
-}
-
-.players-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    background: rgba(20, 40, 100, 0);
+    font-size: 13px;
 }
 
 .player-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 0;
+    /* 移除下面这行边框定义 */
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0); */
 }
 
+/* 修改玩家名字容器和名字样式 */
 .player-name-container {
-    display: flex;
-    align-items: center;
-    width: 120px;
+    margin-right: 0px; /* 从20px减少到5px */
+    flex-grow: 1;
 }
 
 .player-name {
+    padding-left: 10px; /* 从200px减少到5px */
+    cursor: pointer;
+    position: relative;
+}
+
+/* 保留其他原有样式 */
+.player-name:hover::after {
+    content: "双击可编辑";
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+/* 修改：移除玩家名字的边框和背景 */
+.player-name {
     color: white;
     flex-grow: 1;
-    margin-right: 10px;
+    margin-right: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 5px;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 0; /* 保留垂直内边距，移除水平内边距 */
+    /* 移除背景和边框 */
+    background: none;
+    border: none;
+    font-size: 13px;
 }
 
 .edit-name-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.edit-name-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    /* 调整按钮位置 */
+    margin-left: 4px;
 }
 
 .player-score {
     color: white;
     font-weight: bold;
-    min-width: 30px;
+    min-width: 26px;
     text-align: center;
-    font-size: 18px;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    width: 40px;
+    font-size: 15px;
+    text-shadow: 0 0 5px rgba(0 ,0 ,0 ,0);
 }
 
 .score-controls {
     display: flex;
-    gap: 5px;
+    gap: 4px;
     width: 70px;
 }
 
 .score-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: #87CEEB; /* 蓝色背景 */
+    color: white !important; /* 白色符号 */
     border: none;
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold; /* 加粗 */
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* 居中 */
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    transition: background 0.2s;
 }
-
-.score-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
+.team-header h4 {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .window-footer {
-    padding: 10px 0;
-    text-align: center;
+    padding: 8px 0;
 }
 
 .reset-scores {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    width: 100%;
+    padding: 6px 12px;
+    font-size: 13px;
 }
 
-.reset-scores:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
-
-.resize-handle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 15px;
-    height: 15px;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: nwse-resize;
-    border-top-left-radius: 5px;
-    z-index: 10;
-}
-
-/* 滚动条样式 */
-.window-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.window-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-}
-
-.window-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-.window-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-/* 响应式调整 */
 @media (max-width: 768px) {
     .scoreboard-window {
-        width: 250px;
-        min-width: 220px;
+        width: 280px;
+        min-width: 250px;
     }
 }
