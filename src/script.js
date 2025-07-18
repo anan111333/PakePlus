@@ -1076,16 +1076,16 @@ function renderScoreboard(page) {
     }
 }
 
-// 创建玩家项 - 添加分数双击编辑功能
+// 创建玩家项 - 取消编辑按钮，改为双击编辑名字
 function createPlayerItem(player, index, pageKey) {
     const playerItem = document.createElement('li');
     playerItem.className = 'player-item';
     playerItem.dataset.index = index;
     
+    // 移除编辑按钮，只保留名字元素
     playerItem.innerHTML = `
         <div class="player-name-container">
             <span class="player-name">${player.name}</span>
-            <button class="edit-name-btn">✎</button>
         </div>
         <span class="player-score">${player.score}</span>
         <div class="score-controls">
@@ -1094,51 +1094,45 @@ function createPlayerItem(player, index, pageKey) {
         </div>
     `;
     
-    // 添加双击编辑分数功能
-    const scoreElement = playerItem.querySelector('.player-score');
-    scoreElement.addEventListener('dblclick', function() {
+    // 为玩家名字添加双击编辑功能
+    const nameElement = playerItem.querySelector('.player-name');
+    nameElement.addEventListener('dblclick', function() {
         // 创建输入框
         const input = document.createElement('input');
-        input.type = 'number';
-        input.className = 'score-input';
-        input.value = player.score;
+        input.type = 'text';
+        input.className = 'name-input';
+        input.value = player.name;
         
-        // 替换分数元素
-        scoreElement.replaceWith(input);
+        // 替换名字元素
+        nameElement.replaceWith(input);
         input.focus();
         input.select();
         
-        // 保存新分数
-        const saveScore = () => {
-            const newScore = parseInt(input.value) || 0;
-            player.score = newScore;
+        // 保存新名字
+        const saveName = () => {
+            const newName = input.value.trim() || `玩家${index + 1}`;
+            player.name = newName;
             savePlayers(pageKey);
             
-            // 恢复为显示分数
-            const newScoreSpan = document.createElement('span');
-            newScoreSpan.className = 'player-score';
-            newScoreSpan.textContent = newScore;
-            input.replaceWith(newScoreSpan);
+            // 恢复为显示名字
+            const newNameSpan = document.createElement('span');
+            newNameSpan.className = 'player-name';
+            newNameSpan.textContent = newName;
+            input.replaceWith(newNameSpan);
             
             // 重新添加双击事件
-            newScoreSpan.addEventListener('dblclick', arguments.callee);
-            
-            // 如果是团队模式，更新团队总分
-            const page = parseInt(pageKey.replace('page', ''));
-            if (page === 3 || page === 4) {
-                updateTeamScores(page);
-            }
+            newNameSpan.addEventListener('dblclick', arguments.callee);
         };
         
         // 回车保存
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                saveScore();
+                saveName();
             }
         });
         
         // 失去焦点保存
-        input.addEventListener('blur', saveScore);
+        input.addEventListener('blur', saveName);
     });
     
     return playerItem;
