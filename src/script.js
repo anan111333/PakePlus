@@ -12,9 +12,537 @@
 const mapSetColors = {
     s18: { bg: '#9b59b6', hover: '#8e44ad' },
     annual: { bg: '#e67e22', hover: '#d35400' },
-    s6: { bg: '#1abc9c', hover: '#16a085' },
-    yaomao: { bg: '#f1c40f', hover: '#f39c12' }
+    s6: { bg: '#e74c3c', hover: '#c0392b' },
+    yaomao: { bg: '#f1c40f', hover: '#f39c12' },
+    teach: { bg: '#e84393', hover: '#d63031' } // 新增教学地图颜色
 };
+
+// 修改后的教学地图列表，每个地图都有5个视频
+const teachMapList = [
+    { 
+        name: "大大鹅教学", 
+        image: "images/大大鹅.jpg", 
+        videos: [
+            { title: "大鹅教学", url: "videos/0.mp4" }
+        ]
+    },
+    { 
+        name: "秋之物语", 
+        image: "images/秋之物语.jpg", 
+        videos: [
+            { title: "牵引大招", url: "videos/1.mp4" },
+            { title: "完整跑法", url: "videos/2.mp4" }
+        ]
+    },
+    { 
+        name: "一路向黔", 
+        image: "images/一路向黔.jpg", 
+        videos: [
+            { title: "起步3连卡", url: "videos/21.mp4" },
+            { title: "加速带3连卡", url: "videos/22.mp4" },
+            { title: "加速带钞票", url: "videos/23.mp4" },
+            { title: "终点钞票", url: "videos/24.mp4" },
+            { title: "完整跑法", url: "videos/25.mp4" }
+        ]
+    },
+ { 
+        name: "海滨之眼", 
+        image: "images/海滨之眼.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/31.mp4" }
+        ]
+    },
+    { 
+        name: "66号公路", 
+        image: "images/66号公路.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/1.mp4" }
+        ]
+    },
+    { 
+        name: "美洲大峡谷", 
+        image: "images/美洲大峡谷.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/2.mp4" }
+        ]
+    },
+    { 
+        name: "熔炉角斗场", 
+        image: "images/熔炉角斗场.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/3.mp4" }
+        ]
+    },
+    { 
+        name: "人鱼岛探险", 
+        image: "images/人鱼岛探险.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/4.mp4" }
+        ]
+    },
+    { 
+        name: "山雪游龙", 
+        image: "images/山雪游龙.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/5.mp4" }
+        ]
+    },
+    { 
+        name: "火星基地", 
+        image: "images/火星基地.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/6.mp4" }
+        ]
+    },
+    { 
+        name: "极星幻域", 
+        image: "images/极星幻域.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/7.mp4" }
+        ]
+    },
+    { 
+        name: "古城秘境", 
+        image: "images/古城秘境.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/8.mp4" }
+        ]
+    },
+    { 
+        name: "海滨发卡", 
+        image: "images/海滨发卡.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/9.mp4" }
+        ]
+    },
+    { 
+        name: "苏格兰场", 
+        image: "images/苏格兰场.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/10.mp4" }
+        ]
+    },
+    { 
+        name: "古堡森林", 
+        image: "images/古堡森林.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/11.mp4" }
+        ]
+    },
+    { 
+        name: "幻海遗迹", 
+        image: "images/幻海遗迹.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/12.mp4" }
+        ]
+    },
+    { 
+        name: "秋之物语", 
+        image: "images/秋之物语.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/13.mp4" }
+        ]
+    },
+    { 
+        name: "梦回古蜀", 
+        image: "images/梦回古蜀.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/14.mp4" }
+        ]
+    },
+    { 
+        name: "极速列车", 
+        image: "images/极速列车.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/15.mp4" }
+        ]
+    },
+    { 
+        name: "老街工地", 
+        image: "images/老街工地.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/16.mp4" }
+        ]
+    },
+    { 
+        name: "老街迷宫", 
+        image: "images/老街迷宫.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/17.mp4" }
+        ]
+    },
+    { 
+        name: "阿尔法总部", 
+        image: "images/阿尔法总部.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/18.mp4" }
+        ]
+    },
+    { 
+        name: "利维坦激流", 
+        image: "images/利维坦激流.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/19.mp4" }
+        ]
+    },
+    { 
+        name: "西部矿山", 
+        image: "images/西部矿山.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/20.mp4" }
+        ]
+    },
+    { 
+        name: "TROY - 零号试验场", 
+        image: "images/零号试验场.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/21.mp4" }
+        ]
+    },
+    { 
+        name: "海滨之眼", 
+        image: "images/海滨之眼.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/22.mp4" }
+        ]
+    },
+    { 
+        name: "洛杉矶", 
+        image: "images/洛杉矶.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/23.mp4" }
+        ]
+    },
+    { 
+        name: "时之沙", 
+        image: "images/时之沙.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/24.mp4" }
+        ]
+    },
+    { 
+        name: "一路向黔", 
+        image: "images/一路向黔.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/25.mp4" }
+        ]
+    },
+    { 
+        name: "熔岩古墓", 
+        image: "images/熔岩古墓.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/26.mp4" }
+        ]
+    },
+    { 
+        name: "森林发卡", 
+        image: "images/森林发卡.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/27.mp4" }
+        ]
+    },
+    { 
+        name: "桃源剑阁", 
+        image: "images/桃源剑阁.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/28.mp4" }
+        ]
+    },
+    { 
+        name: "瓦特厂房", 
+        image: "images/瓦特厂房.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/29.mp4" }
+        ]
+    },
+    { 
+        name: "云梦泽", 
+        image: "images/云梦泽.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/30.mp4" }
+        ]
+    },
+    { 
+        name: "卡帕多西亚", 
+        image: "images/卡帕多西亚.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/31.mp4" }
+        ]
+    },
+    { 
+        name: "科隆大教堂", 
+        image: "images/科隆大教堂.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/32.mp4" }
+        ]
+    },
+    { 
+        name: "春天的新想乐", 
+        image: "images/春天的新想乐.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/33.mp4" }
+        ]
+    },
+    { 
+        name: "VANS机场", 
+        image: "images/VANS机场.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/34.mp4" }
+        ]
+    },
+    { 
+        name: "港湾发卡", 
+        image: "images/港湾发卡.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/35.mp4" }
+        ]
+    },
+    { 
+        name: "海滨小镇", 
+        image: "images/海滨小镇.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/36.mp4" }
+        ]
+    },
+    { 
+        name: "秋名山", 
+        image: "images/秋名山.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/37.mp4" }
+        ]
+    },
+    { 
+        name: "玉龙雪脉", 
+        image: "images/玉龙雪脉.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/38.mp4" }
+        ]
+    },
+    { 
+        name: "长城", 
+        image: "images/长城.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/39.mp4" }
+        ]
+    },
+    { 
+        name: "恋恋千阳", 
+        image: "images/恋恋千阳.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/40.mp4" }
+        ]
+    },
+    { 
+        name: "飞驰新疆", 
+        image: "images/飞驰新疆.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/41.mp4" }
+        ]
+    },
+    { 
+        name: "伊甸掠影", 
+        image: "images/伊甸掠影.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/42.mp4" }
+        ]
+    },
+    { 
+        name: "星梦游乐园", 
+        image: "images/星梦游乐园.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/43.mp4" }
+        ]
+    },
+    { 
+        name: "天玑阁", 
+        image: "images/天机阁.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/44.mp4" }
+        ]
+    },
+    { 
+        name: "恶龙城", 
+        image: "images/恶龙城.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/45.mp4" }
+        ]
+    },
+    { 
+        name: "亚特兰蒂斯", 
+        image: "images/亚特兰蒂斯.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/46.mp4" }
+        ]
+    },
+    { 
+        name: "神隐之国", 
+        image: "images/神隐之国.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/47.mp4" }
+        ]
+    },
+    { 
+        name: "天宫乘梦", 
+        image: "images/天宫乘梦.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/48.mp4" }
+        ]
+    },
+    { 
+        name: "雾山枫吟", 
+        image: "images/雾山枫吟.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/49.mp4" }
+        ]
+    },
+    { 
+        name: "故园归醉", 
+        image: "images/故原归醉.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/50.mp4" }
+        ]
+    },
+    { 
+        name: "320冒险岛", 
+        image: "images/320冒险岛.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/51.mp4" }
+        ]
+    },
+    { 
+        name: "玫瑰之恋", 
+        image: "images/玫瑰之恋.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/52.mp4" }
+        ]
+    },
+    { 
+        name: "彩虹风车岛", 
+        image: "images/彩虹风车岛.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/53.mp4" }
+        ]
+    },
+    { 
+        name: "敦煌石窟", 
+        image: "images/敦煌石窟.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/54.mp4" }
+        ]
+    },
+    { 
+        name: "玄灵峡谷", 
+        image: "images/玄灵峡谷.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/55.mp4" }
+        ]
+    },
+    { 
+        name: "天空之城", 
+        image: "images/天空之城.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/56.mp4" }
+        ]
+    },
+    { 
+        name: "炎光王城", 
+        image: "images/炎光王城.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/57.mp4" }
+        ]
+    },
+    { 
+        name: "龙宫", 
+        image: "images/龙宫.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/58.mp4" }
+        ]
+    },
+    { 
+        name: "疯狂马戏团", 
+        image: "images/疯狂马戏团.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/59.mp4" }
+        ]
+    },
+    { 
+        name: "冰川滑雪场", 
+        image: "images/冰川滑雪场.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/60.mp4" }
+        ]
+    },
+    { 
+        name: "大漠客栈", 
+        image: "images/大漠客栈.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/61.mp4" }
+        ]
+    },
+    { 
+        name: "千年丝路", 
+        image: "images/千年丝路.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/62.mp4" }
+        ]
+    },
+    { 
+        name: "灵蛇传说", 
+        image: "images/灵蛇传说.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/63.mp4" }
+        ]
+    },
+    { 
+        name: "霆城新港", 
+        image: "images/霆城新港.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/64.mp4" }
+        ]
+    },
+    { 
+        name: "绝色江西", 
+        image: "images/绝色江西.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/65.mp4" }
+        ]
+    },
+    { 
+        name: "一梦青花", 
+        image: "images/一梦青花.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/66.mp4" }
+        ]
+    },
+    { 
+        name: "飞跃神州", 
+        image: "images/飞跃神州.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/67.mp4" }
+        ]
+    },
+    { 
+        name: "雾山五行", 
+        image: "images/雾山五行.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/68.mp4" }
+        ]
+    },
+    { 
+        name: "繁花巴比伦", 
+        image: "images/繁花巴比伦.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/69.mp4" }
+        ]
+    },
+    { 
+        name: "流觞曲水", 
+        image: "images/流觞曲水.jpg", 
+        videos: [
+            { title: "完整跑法", url: "videos/70.mp4" }
+        ]
+    }
+];
 
 // S18 地图列表 - 使用本地图片
 const s18MapList = [
@@ -104,46 +632,46 @@ const annualChampionMapList = [
 ];
 // S6公开地图库 - 添加星级
 const s6MapList = [
-    { name: "66号公路", image: "images/66号公路.jpg", stars: 5 },
-    { name: "古城秘境", image: "images/古城秘境.jpg", stars: 4 },
-    { name: "老街工地", image: "images/老街工地.jpg", stars: 5 },
-    { name: "熔岩古墓", image: "images/熔岩古墓.jpg", stars: 5 },
-    { name: "新天鹅堡", image: "images/新天鹅堡.jpg", stars: 4 },
-    { name: "TROY - 零号试验场", image: "images/零号试验场.jpg", stars: 4 },
-    { name: "秋之物语", image: "images/秋之物语.jpg", stars: 4 },
-    { name: "老街迷宫", image: "images/老街迷宫.jpg", stars: 4 },
-    { name: "森林发卡", image: "images/森林发卡.jpg", stars: 5 },
-    { name: "恋恋千阳", image: "images/恋恋千阳.jpg", stars: 3 },
-    { name: "VANS机场", image: "images/VANS机场.jpg", stars: 4 },
-    { name: "冰雪欢乐城", image: "images/冰雪欢乐城.jpg", stars: 3 },
-    { name: "美洲大峡谷", image: "images/美洲大峡谷.jpg", stars: 6 },
-    { name: "苏格兰场", image: "images/苏格兰场.jpg", stars: 6 },
-    { name: "雪山遗迹", image: "images/雪山遗迹.jpg", stars: 5 },
-    { name: "阿尔法总部", image: "images/阿尔法总部.jpg", stars: 3 },
-    { name: "幻音城假日", image: "images/幻音城假日.jpg", stars: 4 },
-    { name: "天玑阁", image: "images/天机阁.jpg", stars: 7 },
-    { name: "桃源剑阁", image: "images/桃源剑阁.jpg", stars: 4 },
-    { name: "海滨发卡", image: "images/海滨发卡.jpg", stars: 5 },
-    { name: "太空边境", image: "images/太空边境.jpg", stars: 6 },
-    { name: "黄河万里奔流", image: "images/黄河万里奔流.jpg", stars: 3},
-    { name: "莫高窟", image: "images/莫高窟.jpg", stars: 5 },
-    { name: "千户苗寨", image: "images/千户苗寨.jpg", stars: 4 },
-    { name: "一路向黔", image: "images/一路向黔.jpg", stars: 3 },
-    { name: "海滨小镇", image: "images/海滨小镇.jpg", stars: 3 },
-    { name: "雪境裂渊", image: "images/雪境裂渊.jpg", stars: 5 },
-    { name: "赤城红叶", image: "images/赤城红叶.jpg", stars: 4 },
-    { name: "瓦特厂房", image: "images/瓦特厂房.jpg", stars: 6 },
-    { name: "原野之歌", image: "images/原野之歌.jpg", stars: 4 },
-    { name: "火星基地", image: "images/火星基地.jpg", stars: 6 },
-    { name: "雾山风吟", image: "images/雾山风吟.jpg", stars: 3 },
-    { name: "敦煌石窟", image: "images/敦煌石窟.jpg", stars: 5 },
+    { name: "京华东梦", image: "images/京华东梦.jpg", stars: 3 },
+    { name: "敦煌石窟", image: "images/敦煌石窟.jpg", stars: 4 },
+    { name: "神都千古恒照", image: "images/神都千古恒照.jpg", stars: 3 },
+    { name: "大漠客栈", image: "images/大漠客栈.jpg", stars: 3 },
     { name: "西部矿山", image: "images/西部矿山.jpg", stars: 5 },
-    { name: "灵蛇传说", image: "images/灵蛇传说.jpg", stars: 7 },
-    { name: "古堡森林", image: "images/古堡森林.jpg", stars: 5 },
-    { name: "卡帕多西亚", image: "images/卡帕多西亚.jpg", stars: 4 },
-    { name: "1号公路", image: "images/1号公路.jpg", stars: 4 },
+    { name: "赤城红叶", image: "images/赤城红叶.jpg", stars: 4 },
+    { name: "玉龙雪脉", image: "images/玉龙雪脉.jpg", stars: 4 },
+    { name: "风吹过的夏天", image: "images/风吹过的夏天.jpg", stars: 4 },
+    { name: "秋之物语", image: "images/秋之物语.jpg", stars: 3 },
+    { name: "美洲大峡谷", image: "images/美洲大峡谷.jpg", stars: 5 },
+    { name: "神隐之国", image: "images/神隐之国.jpg", stars: 3 },
+    { name: "冰雪欢乐城", image: "images/冰雪欢乐城.jpg", stars: 4 },
+    { name: "飞驰新疆", image: "images/飞驰新疆.jpg", stars: 3 },
+    { name: "一梦青花", image: "images/一梦青花.jpg", stars: 3 },
+    { name: "绝色江西", image: "images/绝色江西.jpg", stars: 4 },
+    { name: "雾山五行", image: "images/雾山五行.jpg", stars: 3 },
+    { name: "幻音城假日", image: "images/幻音城假日.jpg", stars: 3 },
+    { name: "流觞曲水", image: "images/流觞曲水.jpg", stars: 5 },
+    { name: "桃源剑阁", image: "images/桃源剑阁.jpg", stars: 5 },
+    { name: "VANS机场", image: "images/VANS机场.jpg", stars: 4 },
+    { name: "花落夏海", image: "images/花落夏海.jpg", stars: 4 },
+    { name: "黄河万里奔流", image: "images/黄河万里奔流.jpg", stars: 3 },
+    { name: "莫高窟", image: "images/莫高窟.jpg", stars: 5 },
+    { name: "千户苗寨", image: "images/千户苗寨.jpg", stars: 3 },
+    { name: "一路向黔", image: "images/一路向黔.jpg", stars: 3 },
     { name: "西湖", image: "images/西湖.jpg", stars: 4 },
-    { name: "长城", image: "images/长城.jpg", stars: 4 }
+    { name: "山雪游龙", image: "images/山雪游龙.jpg", stars: 2 },
+    { name: "故园归醉", image: "images/故园归醉.jpg", stars: 4 },
+    { name: "千年丝路", image: "images/千年丝路.jpg", stars: 3 },
+    { name: "北海渔场", image: "images/北海渔场.jpg", stars: 3 },
+    { name: "飞跃神州", image: "images/飞跃神州.jpg", stars: 2 },
+    { name: "雾山风吟", image: "images/雾山风吟.jpg", stars: 3 },
+    { name: "长城", image: "images/长城.jpg", stars: 4 },
+    { name: "新天鹅堡", image: "images/新天鹅堡.jpg", stars: 4 },
+    { name: "科隆大教堂", image: "images/科隆大教堂.jpg", stars: 3 },
+    { name: "一路向黔", image: "images/一路向黔.jpg", stars: 3 },
+    { name: "卡帕多西亚", image: "images/卡帕多西亚.jpg", stars: 5 },
+    { name: "幻海遗迹", image: "images/幻海遗迹.jpg", stars: 3 },
+    { name: "云游天府", image: "images/云游天府.jpg", stars: 4 },
+    { name: "梦回古蜀", image: "images/梦回古蜀.jpg", stars: 3 }
 ];
 
 // 耀猫杯地图列表 (70张地图)
@@ -278,115 +806,11 @@ const randomSayings = [
     "选得好，下次别选了",
     "这图有手就行",
     "地图之神的选择",
-    "这图我闭着眼开",
+    "这图我闭了眼开",
     "选这图稳了",
     "这图用脚操作都能赢",
     "这图我家猫看了都摇头"
 ];
-
-        // 胡布斯财富排行榜数据（前100条）
-        const hubuData = [
-            { rank: 1, name: "世界冠军优秀", wealth: 10463656 },
-            { rank: 2, name: "谦谦", wealth: 7359692 },
-            { rank: 3, name: "柚子", wealth: 3898580 },
-            { rank: 4, name: "探玄", wealth: 2083733 },
-            { rank: 5, name: "小俄", wealth: 1744636 },
-            { rank: 6, name: "我对月亮许愿", wealth: 1679706 },
-            { rank: 7, name: "奶糖", wealth: 1473998 },
-            { rank: 8, name: "迷死他、冰", wealth: 1021056 },
-            { rank: 9, name: "迷死他冰 gogogo", wealth: 659579 },
-            { rank: 10, name: "kanozz", wealth: 591430 },
-            { rank: 11, name: "暴龙神", wealth: 524399 },
-            { rank: 12, name: "菜就多练", wealth: 428160 },
-            { rank: 13, name: "老年选手", wealth: 339042 },
-            { rank: 14, name: "恋爱", wealth: 325474 },
-            { rank: 15, name: "阿强", wealth: 305325 },
-            { rank: 16, name: "清漪", wealth: 290370 },
-            { rank: 17, name: "御姐", wealth: 263954 },
-            { rank: 18, name: "安安教练", wealth: 250258 },
-            { rank: 19, name: "若晴", wealth: 238693 },
-            { rank: 20, name: "全服让一分", wealth: 224209 },
-            { rank: 21, name: "清清", wealth: 222757 },
-            { rank: 22, name: "晴天", wealth: 219142 },
-            { rank: 23, name: "薛之谦", wealth: 214489 },
-            { rank: 24, name: "别离", wealth: 210087 },
-            { rank: 25, name: "小玖", wealth: 207280 },
-            { rank: 26, name: "车王冠军丶胡旭", wealth: 202833 },
-            { rank: 27, name: "啊钦", wealth: 172211 },
-            { rank: 28, name: "无敌飞车大王", wealth: 169842 },
-            { rank: 29, name: "颠覆丶战伯冰", wealth: 168118 },
-            { rank: 30, name: "七分糖", wealth: 166594 },
-            { rank: 31, name: "啊羡丶", wealth: 166260 },
-            { rank: 32, name: "vvv", wealth: 163444 },
-            { rank: 33, name: "回眸丶谁浅笑", wealth: 158414 },
-            { rank: 34, name: "kidd", wealth: 156762 },
-            { rank: 35, name: "枨", wealth: 142778 },
-            { rank: 36, name: "idan", wealth: 140354 },
-            { rank: 37, name: "叶凡", wealth: 138898 },
-            { rank: 38, name: "迷死她薄冰", wealth: 136177 },
-            { rank: 39, name: "猛虎王阿芙拉", wealth: 128591 },
-            { rank: 40, name: "贩卖小黄", wealth: 128184 },
-            { rank: 41, name: "迷死她伯冰丶", wealth: 127614 },
-            { rank: 42, name: "那梦里见丶", wealth: 121656 },
-            { rank: 43, name: "大爱仙尊", wealth: 120840 },
-            { rank: 44, name: "哦否", wealth: 120027 },
-            { rank: 45, name: "Happy", wealth: 119536 },
-            { rank: 46, name: "迷死她丶伯冰", wealth: 112670 },
-            { rank: 47, name: "旭你真猛", wealth: 108352 },
-            { rank: 48, name: "陈伯", wealth: 107634 },
-            { rank: 49, name: "木槿", wealth: 105544 },
-            { rank: 50, name: "Bamboo", wealth: 105364 },
-            { rank: 51, name: "懒羊羊", wealth: 105316 },
-            { rank: 52, name: "lancerovo", wealth: 103432 },
-            { rank: 53, name: "我有四根大瘠薄", wealth: 98894 },
-            { rank: 54, name: "中华儿女", wealth: 98098 },
-            { rank: 55, name: "Tulip", wealth: 97875 },
-            { rank: 56, name: "奥", wealth: 95458 },
-            { rank: 57, name: "重拾快樂", wealth: 93665 },
-            { rank: 58, name: "猪油渣", wealth: 92508 },
-            { rank: 59, name: "等风", wealth: 89978 },
-            { rank: 60, name: "Prince995", wealth: 89968 },
-            { rank: 61, name: "萝莉", wealth: 89180 },
-            { rank: 62, name: "null", wealth: 88376 },
-            { rank: 63, name: "梦昧", wealth: 88305 },
-            { rank: 64, name: "吴亦凡", wealth: 88300 },
-            { rank: 65, name: "F3", wealth: 88000 },
-            { rank: 66, name: "帝尊", wealth: 88000 },
-            { rank: 67, name: "七喜", wealth: 88000 },
-            { rank: 68, name: "过往", wealth: 85439 },
-            { rank: 69, name: "院长观鱼赏花", wealth: 85164 },
-            { rank: 70, name: "小鸟游六花", wealth: 84745 },
-            { rank: 71, name: "太子", wealth: 84650 },
-            { rank: 72, name: "娃哈哈", wealth: 83932 },
-            { rank: 73, name: "飞车创口贴", wealth: 80482 },
-            { rank: 74, name: "老豆", wealth: 79862 },
-            { rank: 75, name: "纵横丶野蛮家", wealth: 79688 },
-            { rank: 76, name: "技师", wealth: 78110 },
-            { rank: 77, name: "多冰三分糖", wealth: 77309 },
-            { rank: 78, name: "薄青", wealth: 74437 },
-            { rank: 79, name: "若愉", wealth: 70606 },
-            { rank: 80, name: "weiweiwang", wealth: 70447 },
-            { rank: 81, name: "林子", wealth: 69844 },
-            { rank: 82, name: "今晚吃什么", wealth: 69520 },
-            { rank: 83, name: "天命", wealth: 68456 },
-            { rank: 84, name: "迷死他柏冰丶", wealth: 68010 },
-            { rank: 85, name: "Jk", wealth: 67850 },
-            { rank: 86, name: "F1", wealth: 66914 },
-            { rank: 87, name: "落红不是无情物", wealth: 64396 },
-            { rank: 88, name: "浮生若梦", wealth: 64214 },
-            { rank: 89, name: "Ari", wealth: 62902 },
-            { rank: 90, name: "宇宙第一装逼王", wealth: 61212 },
-            { rank: 91, name: "资本", wealth: 59066 },
-            { rank: 92, name: "axf", wealth: 58241 },
-            { rank: 93, name: "街留子", wealth: 57524 },
-            { rank: 94, name: "阿柒", wealth: 54372 },
-            { rank: 95, name: "瑾曦", wealth: 53146 },
-            { rank: 96, name: "QAQ", wealth: 52663 },
-            { rank: 97, name: "迷死她丨伯冰丶", wealth: 52501 },
-            { rank: 98, name: "春日野悠", wealth: 50624 },
-            { rank: 99, name: "颠覆丶恋晴", wealth: 50198 },
-            { rank: 100, name: "A", wealth: 50158 }
-        ];
 
 // 从localStorage加载数据或使用默认数据
 let excludedMaps = JSON.parse(localStorage.getItem('excludedMaps')) || {};
@@ -399,9 +823,6 @@ const s18MapLibraryBtn = document.getElementById('s18MapLibraryBtn');
 const annualChampionMapLibraryBtn = document.getElementById('annualChampionMapLibraryBtn');
 const s6MapLibraryBtn = document.getElementById('s6MapLibraryBtn');
 const yaomaoMapLibraryBtn = document.getElementById('yaomaoMapLibraryBtn');
-const s19RankBtn = document.getElementById('s19RankBtn');
-const gloryBtn = document.getElementById('gloryBtn');
-const hubuBtn = document.getElementById('hubuBtn');
 const randomBtn = document.getElementById('randomBtn');
 const resetBtn = document.getElementById('resetBtn');
 const scoreboardBtn = document.getElementById('scoreboardBtn');
@@ -416,13 +837,6 @@ const guideModal = document.getElementById('guideModal');
 const closeGuide = document.getElementById('closeGuide');
 const resetScoresBtn = document.getElementById('resetScoresBtn');
 const randomMapSaying = document.getElementById('randomMapSaying');
-const s19RankModal = document.getElementById('s19RankModal');
-const closeRankModal = document.getElementById('closeRankModal');
-const gloryModal = document.getElementById('gloryModal');
-const closeGlory = document.getElementById('closeGlory');
-const hubuModal = document.getElementById('hubuModal');
-const closeHubu = document.getElementById('closeHubu');
-const hubuTableBody = document.getElementById('hubuTableBody');
 
 // 记分板窗口元素
 const scoreboardWindow = document.getElementById('scoreboardWindow');
@@ -514,7 +928,8 @@ function updateRandomMapAnnouncement(map) {
         announcement.style.display = 'none';
     }
 }
-
+// 获取教学地图按钮元素
+const teachMapLibraryBtn = document.getElementById('teachMapLibraryBtn');
 // 设置事件监听器
 function setupEventListeners() {
     // 地图库切换
@@ -522,6 +937,7 @@ function setupEventListeners() {
     annualChampionMapLibraryBtn.addEventListener('click', () => switchMapLibrary('annual', annualChampionMapList));
     s6MapLibraryBtn.addEventListener('click', () => switchMapLibrary('s6', s6MapList));
     yaomaoMapLibraryBtn.addEventListener('click', () => switchMapLibrary('yaomao', yaomaoMapList));
+    teachMapLibraryBtn.addEventListener('click', () => switchMapLibrary('teach', teachMapList));
 
     // 随机选图
     randomBtn.addEventListener('click', selectRandomMap);
@@ -544,36 +960,6 @@ function setupEventListeners() {
     // 重置分数
     resetScoresBtn.addEventListener('click', resetScores);
 
-    // S19排名弹窗
-    s19RankBtn.addEventListener('click', () => s19RankModal.style.display = 'flex');
-    closeRankModal.addEventListener('click', () => s19RankModal.style.display = 'none');
-    s19RankModal.addEventListener('click', (e) => {
-        if (e.target === s19RankModal) {
-            s19RankModal.style.display = 'none';
-        }
-    });
-    
-    // 光荣榜弹窗
-    gloryBtn.addEventListener('click', () => gloryModal.style.display = 'flex');
-    closeGlory.addEventListener('click', () => gloryModal.style.display = 'none');
-    gloryModal.addEventListener('click', (e) => {
-        if (e.target === gloryModal) {
-            gloryModal.style.display = 'none';
-        }
-    });
-    
-    // 胡布斯排行弹窗
-    hubuBtn.addEventListener('click', () => {
-        hubuModal.style.display = 'flex';
-        renderHubuTable();
-    });
-    closeHubu.addEventListener('click', () => hubuModal.style.display = 'none');
-    hubuModal.addEventListener('click', (e) => {
-        if (e.target === hubuModal) {
-            hubuModal.style.display = 'none';
-        }
-    });
-
     // 主页按钮
     homeBtn.addEventListener('click', () => {
         document.querySelectorAll('.map-card').forEach(card => {
@@ -595,12 +981,18 @@ function setupEventListeners() {
         }
     });
 
-    // 点击地图卡片排除/取消排除
+    // 修改地图卡片点击事件处理，添加教学地图的特殊处理
     mapContainer.addEventListener('click', (e) => {
         const mapCard = e.target.closest('.map-card');
         if (mapCard) {
             const mapName = mapCard.querySelector('.map-name').textContent;
-            toggleMapExclusion(mapName);
+            
+            // 如果是教学地图，播放视频而不是排除
+            if (currentMapSet === 'teach') {
+                playTeachVideo(mapName);
+            } else {
+                toggleMapExclusion(mapName);
+            }
         }
     });
     
@@ -624,7 +1016,149 @@ function setupEventListeners() {
     // 记分板分数操作事件
     setupScoreboardEventListeners();
 }
-
+// 添加播放教学视频的函数
+// 修改播放教学视频的函数，添加视频切换功能
+function playTeachVideo(mapName) {
+    // 找到对应的地图数据
+    const map = teachMapList.find(m => m.name === mapName);
+    if (!map || !map.videos || map.videos.length === 0) {
+        alert('该地图暂无教学视频');
+        return;
+    }
+    
+    // 创建视频模态框
+    const videoModal = document.createElement('div');
+    videoModal.className = 'video-modal';
+    videoModal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    `;
+    
+    // 创建视频内容
+    const videoContent = document.createElement('div');
+    videoContent.className = 'video-content';
+    videoContent.style.cssText = `
+        position: relative;
+        width: 80%;
+        max-width: 800px;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+    `;
+    
+    // 创建视频控制栏
+    const videoControls = document.createElement('div');
+    videoControls.className = 'video-controls';
+    videoControls.style.cssText = `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.7);
+    `;
+    
+    // 创建视频选择下拉菜单（如果有多于一个视频）
+    let videoSelector = null;
+    if (map.videos.length > 1) {
+        videoSelector = document.createElement('select');
+        videoSelector.className = 'video-selector';
+        videoSelector.style.cssText = `
+            padding: 5px;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            border: none;
+        `;
+        
+        map.videos.forEach((video, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = video.title;
+            videoSelector.appendChild(option);
+        });
+        
+        videoControls.appendChild(videoSelector);
+    } else {
+        // 只有一个视频时显示标题
+        const videoTitle = document.createElement('span');
+        videoTitle.textContent = map.videos[0].title;
+        videoTitle.style.color = 'white';
+        videoControls.appendChild(videoTitle);
+    }
+    
+    // 创建视频元素
+    const video = document.createElement('video');
+    video.src = map.videos[0].url;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.width = '100%';
+    
+    // 创建关闭按钮
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'video-close';
+    closeBtn.textContent = '×';
+    closeBtn.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 10;
+    `;
+    
+    // 关闭视频模态框
+    closeBtn.addEventListener('click', () => {
+        video.pause();
+        document.body.removeChild(videoModal);
+    });
+    
+    // 点击背景关闭
+    videoModal.addEventListener('click', (e) => {
+        if (e.target === videoModal) {
+            video.pause();
+            document.body.removeChild(videoModal);
+        }
+    });
+    
+    // 视频切换功能
+    if (videoSelector) {
+        videoSelector.addEventListener('change', () => {
+            const selectedIndex = parseInt(videoSelector.value);
+            const currentTime = video.currentTime;
+            const isPaused = video.paused;
+            
+            video.src = map.videos[selectedIndex].url;
+            video.currentTime = currentTime;
+            
+            if (!isPaused) {
+                video.play();
+            }
+        });
+    }
+    
+    // 组装元素
+    videoContent.appendChild(videoControls);
+    videoContent.appendChild(video);
+    videoContent.appendChild(closeBtn);
+    videoModal.appendChild(videoContent);
+    
+    // 添加到页面
+    document.body.appendChild(videoModal);
+}
 // 添加名字编辑功能
 function setupNameEditListeners() {
     // 为每个页面的玩家列表添加事件监听
@@ -1162,26 +1696,6 @@ function updateTeamScores(page) {
 // 保存玩家数据
 function savePlayers(pageKey) {
     localStorage.setItem(`players_${pageKey}`, JSON.stringify(scorePlayers[pageKey]));
-}
-
-// 渲染胡布斯排行榜
-function renderHubuTable() {
-    hubuTableBody.innerHTML = '';
-    
-    hubuData.forEach((player, index) => {
-        const row = document.createElement('tr');
-        if (index < 3) {
-            row.classList.add('top-3');
-        }
-        
-        row.innerHTML = `
-            <td class="rank-cell">${player.rank}</td>
-            <td>${player.name}</td>
-            <td class="hubu-wealth">${player.wealth.toLocaleString()}</td>
-        `;
-        
-        hubuTableBody.appendChild(row);
-    });
 }
 
 // 重置所有分数
